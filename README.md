@@ -12,7 +12,7 @@ A demo application showcasing movie showtimes and theater information with featu
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/s-shindeldecker/fandango-demo
 cd fandango-demo
 ```
 
