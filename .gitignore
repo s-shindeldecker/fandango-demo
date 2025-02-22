@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+**/node_modules/
+**/myenv/
+
+# Environment files
+.env
+**/.env
+
+# Build files
+**/build/
+**/dist/
+**/.next/
+
+# Cache
+.cache/
+.npm/
+.pytest_cache/
+__pycache__/
+**/__pycache__/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
