@@ -47,55 +47,11 @@ This guide provides detailed instructions for setting up LaunchDarkly feature fl
      ]
      ```
 
-2. **Targeting Rules**
-   ```javascript
-   {
-     "rules": [
-       {
-         "variation": 0,
-         "clauses": [
-           {
-             "attribute": "theaterLocation",
-             "op": "contains",
-             "values": ["amc", "regal"]
-           }
-         ]
-       },
-       {
-         "variation": 1,
-         "clauses": [
-           {
-             "attribute": "movieType",
-             "op": "equals",
-             "values": ["blockbuster"]
-           }
-         ]
-       }
-     ],
-     "fallthrough": {
-       "rollout": {
-         "variations": [
-           {
-             "variation": 0,
-             "weight": 25
-           },
-           {
-             "variation": 1,
-             "weight": 25
-           },
-           {
-             "variation": 2,
-             "weight": 25
-           },
-           {
-             "variation": 3,
-             "weight": 25
-           }
-         ]
-       }
-     }
-   }
-   ```
+2. **Initial Distribution**
+   - For initial testing, set an even distribution:
+     - 25% of users see each variation
+     - This can be adjusted in the LaunchDarkly dashboard as needed
+     - Additional targeting rules can be added later based on experiment results
 
 ## Experimentation Setup
 
