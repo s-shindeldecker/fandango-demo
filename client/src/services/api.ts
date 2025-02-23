@@ -27,18 +27,13 @@ export const api = {
     return response.data;
   },
 
-  async trackEvent(data: {
-    userId: string;
-    variation: string;
-    type: 'view' | 'click';
-    showtime?: Showtime;
-  }): Promise<void> {
-    await axios.post(`${API_BASE_URL}/analytics/track`, data);
-  },
-
-  async getAnalytics(): Promise<Record<string, { clicks: number; views: number; ctr: number }>> {
-    const response = await axios.get(`${API_BASE_URL}/analytics/results`);
-    return response.data;
+  async selectShowtime(theaterId: string, movieId: string, showtime: Showtime): Promise<void> {
+    await axios.post(`${API_BASE_URL}/showtimes/select`, {
+      userId: USER_ID,
+      theaterId,
+      movieId,
+      showtime
+    });
   }
 };
 

@@ -43,13 +43,6 @@ function App() {
         setTheater(theaterData);
         setShowtimes(showtimesData.showtimes);
         setVariation(showtimesData.variation);
-
-        // Track page view
-        await api.trackEvent({
-          userId: getUserId(),
-          variation: showtimesData.variation,
-          type: 'view'
-        });
       } catch (err) {
         setError('Failed to load movie data. Please try again later.');
         console.error('Error fetching data:', err);
@@ -63,17 +56,11 @@ function App() {
 
   const handleShowtimeClick = async (showtime: Showtime) => {
     try {
-      await api.trackEvent({
-        userId: getUserId(),
-        variation,
-        type: 'click',
-        showtime
-      });
-      
+      await api.selectShowtime(DEMO_THEATER_ID, DEMO_MOVIE_ID, showtime);
       // In a real app, this would navigate to the booking flow
       alert(`Selected showtime: ${showtime.time} (${showtime.format})`);
     } catch (err) {
-      console.error('Error tracking showtime click:', err);
+      console.error('Error selecting showtime:', err);
     }
   };
 

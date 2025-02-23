@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Header = styled.header`
-  background-color: #fff;
+  background-color: var(--background-main);
   border-bottom: 1px solid var(--border-gray);
   padding: 0;
   position: fixed;
@@ -10,7 +10,7 @@ export const Header = styled.header`
   right: 0;
   height: var(--header-height);
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--box-shadow);
 `;
 
 export const HeaderContent = styled.div`
@@ -57,10 +57,10 @@ export const Container = styled.div`
 `;
 
 export const MainContent = styled.main`
-  background: #fff;
+  background: var(--background-main);
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--box-shadow);
 `;
 
 export const Sidebar = styled.aside`
@@ -87,7 +87,7 @@ export const PosterContainer = styled.div`
   height: 345px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--box-shadow);
   background-color: var(--primary-blue);
 
   @media (max-width: 768px) {
@@ -197,7 +197,7 @@ export const ShowtimesList = styled.div`
 
 export const ShowtimeButton = styled.button`
   width: 100%;
-  background-color: #fff;
+  background-color: var(--background-main);
   border: 1px solid var(--primary-blue);
   color: var(--primary-blue);
   padding: 12px 8px;
@@ -212,7 +212,7 @@ export const ShowtimeButton = styled.button`
 
   &:hover {
     background-color: var(--primary-blue);
-    color: #fff;
+    color: var(--background-main);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(13, 83, 246, 0.2);
   }
@@ -233,7 +233,7 @@ export const PriceTag = styled.span`
 export const AdPlaceholder = styled.div`
   width: 100%;
   height: 250px;
-  background: #f5f5f5;
+  background: var(--background-light);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -245,7 +245,7 @@ export const AdPlaceholder = styled.div`
 `;
 
 export const Footer = styled.footer`
-  background: #fff;
+  background: var(--background-main);
   border-top: 1px solid var(--border-gray);
   padding: 40px 0;
   margin-top: 60px;
