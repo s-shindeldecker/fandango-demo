@@ -22,13 +22,6 @@ class LaunchDarklyManager:
             "variation_1"  # default variation
         )
 
-    def get_movie_image(self, user_context):
-        return self.client.variation(
-            "movie-image-flag",
-            user_context,
-            MOCK_MOVIE["poster"]  # default to mock data poster URL
-        )
-
     def track_page_view(self, user_context, page_data):
         self.client.track(
             "page_view",
@@ -78,7 +71,7 @@ def get_current_time_period():
     else:
         return 'evening'
 
-# Initialize Flask app and LaunchDarkly client
+# Initialize Flask app and CORS
 app = Flask(__name__)
 CORS(app)
 
@@ -95,18 +88,9 @@ analytics_data = []
 
 @app.route('/api/movie/<movie_id>', methods=['GET'])
 def get_movie(movie_id):
-    # Get user context from query params
-    user_id = request.args.get('userId', 'default-user')
-    
-    # Create user context for LaunchDarkly
-    user_context = create_user_context(user_id, 'default-theater', MOCK_MOVIE)
-    
-    # Get movie image URL from LaunchDarkly
-    movie_image = ld_manager.get_movie_image(user_context)
-    
-    # Return mock movie data with the LaunchDarkly-controlled image URL
-    movie_data = {**MOCK_MOVIE, "poster": movie_image}
-    return jsonify(movie_data)
+    # Return mock movie data with the default poster URL
+    # The client will handle the LaunchDarkly flag evaluation for the image URL
+    return jsonify(MOCK_MOVIE)
 
 @app.route('/api/theater/<theater_id>', methods=['GET'])
 def get_theater(theater_id):
