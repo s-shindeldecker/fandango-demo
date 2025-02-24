@@ -1,17 +1,24 @@
-import * as LDClient from 'launchdarkly-js-client-sdk';
+import { initialize, LDClient } from 'launchdarkly-js-client-sdk';
+import { config } from './config';
 
 class LaunchDarklyService {
-  private client: LDClient.LDClient;
+  private client: LDClient;
   private initialized: boolean = false;
 
   constructor() {
-    this.client = LDClient.initialize(
-      'your-client-side-sdk-key',  // Replace with your client-side SDK key
-      { key: 'anonymous' }
-    );
+    // Initialize with client-side ID from config
+    this.client = initialize(config.launchDarkly.clientSideId, { 
+      key: 'anonymous',
+      anonymous: true
+    });
 
     this.client.on('ready', () => {
       this.initialized = true;
+      console.log('LaunchDarkly client initialized');
+    });
+
+    this.client.on('failed', () => {
+      console.error('LaunchDarkly client failed to initialize');
     });
   }
 
@@ -21,8 +28,13 @@ class LaunchDarklyService {
   }
 
   async getMovieImageUrl(defaultUrl: string): Promise<string> {
-    await this.waitForInitialization();
-    return this.client.variation('movie-image-flag', defaultUrl);
+    try {
+      await this.waitForInitialization();
+      return this.client.variation('movie-image-flag', defaultUrl);
+    } catch (error) {
+      console.error('Error getting movie image flag:', error);
+      return defaultUrl;
+    }
   }
 
   onFlagChange(flagKey: string, callback: () => void): void {
