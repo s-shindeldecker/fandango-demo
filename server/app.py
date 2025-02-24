@@ -71,7 +71,7 @@ def get_current_time_period():
     else:
         return 'evening'
 
-# Initialize Flask app and LaunchDarkly client
+# Initialize Flask app and CORS
 app = Flask(__name__)
 CORS(app)
 
@@ -88,7 +88,8 @@ analytics_data = []
 
 @app.route('/api/movie/<movie_id>', methods=['GET'])
 def get_movie(movie_id):
-    # For demo purposes, always return our mock movie
+    # Return mock movie data with the default poster URL
+    # The client will handle the LaunchDarkly flag evaluation for the image URL
     return jsonify(MOCK_MOVIE)
 
 @app.route('/api/theater/<theater_id>', methods=['GET'])

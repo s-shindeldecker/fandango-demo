@@ -3,6 +3,7 @@ import { MovieDetails } from './components/MovieDetails';
 import { Showtimes } from './components/Showtimes';
 import { api, getUserId } from './services/api';
 import { Movie, Theater, Showtime } from './types';
+import { launchDarkly } from './launchdarkly';
 import {
   Header,
   HeaderContent,
@@ -29,6 +30,19 @@ function App() {
 
   const fetchDataOnce = useRef(false);
 
+  // Function to fetch movie data and update image URL
+  const fetchMovieData = async () => {
+    try {
+      const movieData = await api.getMovie(DEMO_MOVIE_ID);
+      // Get the image URL from LaunchDarkly
+      const imageUrl = await launchDarkly.getMovieImageUrl(movieData.poster);
+      // Update movie data with the flag-controlled image URL
+      setMovie({ ...movieData, poster: imageUrl });
+    } catch (error) {
+      console.error('Error fetching movie data:', error);
+    }
+  };
+
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -41,15 +55,23 @@ function App() {
         setLoading(true);
         setError(null);
         
-        // Fetch movie and theater data with abort signal
-        const movieData = await api.getMovie(DEMO_MOVIE_ID);
-        const theaterData = await api.getTheater(DEMO_THEATER_ID);
-        const showtimesData = await api.getShowtimes(DEMO_THEATER_ID, DEMO_MOVIE_ID);
+        // Fetch theater and showtimes data
+        const [theaterData, showtimesData] = await Promise.all([
+          api.getTheater(DEMO_THEATER_ID),
+          api.getShowtimes(DEMO_THEATER_ID, DEMO_MOVIE_ID)
+        ]);
 
-        setMovie(movieData);
+        // Fetch movie data with LaunchDarkly flag
+        await fetchMovieData();
+        
         setTheater(theaterData);
         setShowtimes(showtimesData.showtimes);
         setVariation(showtimesData.variation);
+
+        // Set up flag change listener
+        launchDarkly.onFlagChange('movie-image-flag', () => {
+          fetchMovieData();
+        });
       } catch (error: unknown) {
         if (error instanceof Error && error.name !== 'AbortError') {
           setError('Failed to load movie data. Please try again later.');

@@ -3,15 +3,9 @@ import { Movie, Theater, ShowtimesResponse, Showtime } from '../types';
 
 const API_BASE_URL = 'http://localhost:5003/api';
 
-// Get or create a stable user ID from localStorage
-const getStableUserId = () => {
-  let userId = localStorage.getItem('fandango_demo_user_id');
-  if (!userId) {
-    userId = Math.random().toString(36).substring(7);
-    localStorage.setItem('fandango_demo_user_id', userId);
-  }
-  return userId;
-};
+// Generate a new random user ID for each page load
+const generateUserId = () => Math.random().toString(36).substring(7);
+const USER_ID = generateUserId();
 
 export const api = {
   async getMovie(movieId: string): Promise<Movie> {
@@ -28,7 +22,7 @@ export const api = {
     const response = await axios.get(
       `${API_BASE_URL}/showtimes/${theaterId}/${movieId}`,
       {
-        params: { userId: getStableUserId() }
+        params: { userId: USER_ID }
       }
     );
     return response.data;
@@ -36,7 +30,7 @@ export const api = {
 
   async selectShowtime(theaterId: string, movieId: string, showtime: Showtime): Promise<void> {
     await axios.post(`${API_BASE_URL}/showtimes/select`, {
-      userId: getStableUserId(),
+      userId: USER_ID,
       theaterId,
       movieId,
       showtime
@@ -44,4 +38,4 @@ export const api = {
   }
 };
 
-export const getUserId = () => getStableUserId();
+export const getUserId = () => USER_ID;
