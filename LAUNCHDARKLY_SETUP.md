@@ -28,9 +28,16 @@ This document explains how to set up the LaunchDarkly integration for the Fandan
 
 1. Start the application:
    ```bash
+   # Start the server (runs on port 5003)
    cd server && python app.py
+
+   # Start the client (runs on port 3000)
    cd client && npm start
    ```
+
+   The application will be available at:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5003/api
 
 2. The movie poster image will be controlled by the `movie-image-flag` in LaunchDarkly
 3. Changes to the flag in LaunchDarkly will be reflected immediately without page refresh
