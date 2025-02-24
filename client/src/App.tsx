@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MovieDetails } from './components/MovieDetails';
 import { Showtimes } from './components/Showtimes';
 import { api, getUserId } from './services/api';
@@ -27,31 +27,44 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchDataOnce = useRef(false);
+
   useEffect(() => {
+    const abortController = new AbortController();
+
     const fetchData = async () => {
+      // Prevent duplicate fetches in Strict Mode
+      if (fetchDataOnce.current) return;
+      fetchDataOnce.current = true;
+
       try {
         setLoading(true);
+        setError(null);
         
-        // Fetch movie and theater data
-        const [movieData, theaterData, showtimesData] = await Promise.all([
-          api.getMovie(DEMO_MOVIE_ID),
-          api.getTheater(DEMO_THEATER_ID),
-          api.getShowtimes(DEMO_THEATER_ID, DEMO_MOVIE_ID)
-        ]);
+        // Fetch movie and theater data with abort signal
+        const movieData = await api.getMovie(DEMO_MOVIE_ID);
+        const theaterData = await api.getTheater(DEMO_THEATER_ID);
+        const showtimesData = await api.getShowtimes(DEMO_THEATER_ID, DEMO_MOVIE_ID);
 
         setMovie(movieData);
         setTheater(theaterData);
         setShowtimes(showtimesData.showtimes);
         setVariation(showtimesData.variation);
-      } catch (err) {
-        setError('Failed to load movie data. Please try again later.');
-        console.error('Error fetching data:', err);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          setError('Failed to load movie data. Please try again later.');
+          console.error('Error fetching data:', error);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const handleShowtimeClick = async (showtime: Showtime) => {
