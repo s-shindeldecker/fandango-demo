@@ -11,7 +11,7 @@ from ldclient import LDClient, Config
 load_dotenv()
 
 class LaunchDarklyManager:
-    def __init__(self, sdk_key):
+    def __init__(self, d):
         config = Config(sdk_key)
         self.client = LDClient(config=config)
 

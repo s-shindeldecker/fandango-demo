@@ -8,7 +8,7 @@ pkill -f "react-scripts start"
 # Start the Flask server
 echo "Starting Flask server on port 5003..."
 cd server
-python3 -m flask run --port=5003 &
+source venv/bin/activate && python3 -m flask run --port=5003 &
 
 # Wait a moment for Flask to start
 sleep 2
