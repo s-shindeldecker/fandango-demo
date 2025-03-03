@@ -104,7 +104,7 @@ function App() {
       <div>
         <Header>
           <HeaderContent>
-            <Logo>FANDANGO</Logo>
+            <Logo>PHILMTIX</Logo>
           </HeaderContent>
         </Header>
         <Container>
@@ -119,7 +119,7 @@ function App() {
       <div>
         <Header>
           <HeaderContent>
-            <Logo>FANDANGO</Logo>
+            <Logo>PHILMTIX</Logo>
           </HeaderContent>
         </Header>
         <Container>
@@ -134,7 +134,7 @@ function App() {
       <div>
         <Header>
           <HeaderContent>
-            <Logo>FANDANGO</Logo>
+            <Logo>PHILMTIX</Logo>
           </HeaderContent>
         </Header>
         <Container>
@@ -148,7 +148,7 @@ function App() {
     <div>
       <Header>
         <HeaderContent>
-          <Logo>FANDANGO</Logo>
+          <Logo>PHILMTIX</Logo>
           <nav>
             <a href="#movies">MOVIES</a>
           </nav>
@@ -175,7 +175,7 @@ function App() {
 
       <Footer>
         <FooterContent>
-          <p>© 2025 Demo Project - Not affiliated with Fandango</p>
+          <p>© 2025 Demo Project - Not affiliated with Philmtix</p>
           <p>This is a demo project for testing showtime sorting variations</p>
         </FooterContent>
       </Footer>

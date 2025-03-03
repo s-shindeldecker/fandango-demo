@@ -1,15 +1,16 @@
 import { initialize, LDClient } from 'launchdarkly-js-client-sdk';
 import { config } from './config';
+import { getUserId } from './services/api';
 
 class LaunchDarklyService {
   private client: LDClient;
   private initialized: boolean = false;
 
   constructor() {
-    // Initialize with client-side ID from config
-    this.client = initialize(config.launchDarkly.clientSideId, { 
-      key: 'anonymous',
-      anonymous: true
+    // Initialize with client-side ID from config and user context
+    this.client = initialize(config.launchDarkly.clientSideId, {
+      key: getUserId(),
+      anonymous: false
     });
 
     this.client.on('ready', () => {
